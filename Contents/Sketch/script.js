@@ -66,7 +66,7 @@ console.log(parentStyle.textColor)
 }
 
 //Iterate each fragment convering it to our own parsing language
-let exportString = "</content>";
+let exportString = "<content>";
 for(fragment of exportedValue.fragments)
 {
   let spanAttributes = [];
