@@ -84,7 +84,7 @@ for(fragment of exportedValue.fragments)
   spanAttributes.push(styleAttributeString)
 
   //Handle colours
-  
+  let colourAttributeString = "colour='" + fragment.colourHex + "'";
   
   
   let attributesString = '';
@@ -100,6 +100,5 @@ exportString += "</content>"
 console.log(exportString)
 console.log(exportedValue)
 
-let alertPrep = exportedValue.name + "\n\n" + exportString;
-UI.alert("Your export is complete:", alertPrep);
+UI.alert(exportedValue.name, exportString);
 
