@@ -1,9 +1,15 @@
-          var onRun = function(context) {
-          let sketch = require('sketch')
+let sketch = require('sketch')
 
 var UI = require('sketch/ui')
 
 let doc = sketch.getSelectedDocument()
+
+if(doc.selectedLayers.length == 0)
+{ 
+  UI.alert("Oops", "No text layer selected");
+  return;
+}
+
 let selectedLayer = doc.selectedLayers.layers[0]
 
 const attrStr = selectedLayer.sketchObject.attributedStringValue()
@@ -12,15 +18,15 @@ let effectiveRange = MOPointer.alloc().init()
 let length = attrStr.length()
 
 
-let styleOfSelectedTextLayer = selectedLayer.fragments
-  console.log(styleOfSelectedTextLayer)
-
-
 let exportedValue = {
   name: selectedLayer.name,
   raw: selectedLayer.text,
   fragments: []
 }
+
+var parentStyle = selectedLayer.style;
+
+console.log(parentStyle)
 
 while(limitRange.length > 0) {
   let attributes = attrStr.attributesAtIndex_longestEffectiveRange_inRange(
@@ -31,10 +37,13 @@ while(limitRange.length > 0) {
   let fontWeightValue = NSFontManager.sharedFontManager().weightOfFont(attributes.NSFont)
   let attributedSubstring = attrStr.attributedSubstringFromRange(effectiveRange.value())
   
-  let differsFromParent = true;
+  
+console.log("#" + attributes.MSAttributedStringColorAttribute.hexValue())
+console.log(parentStyle.textColor)
+  let differsInColor = ("#" + attributes.MSAttributedStringColorAttribute.hexValue()) != parentStyle.textColor
 
   let property = {
-      "differsFromParent" : differsFromParent,
+      "differsInColor" : differsInColor,      
       "string":attributedSubstring.string(),
       "fontWeight": fontWeightValue,
       "colorHex": "#" + attributes.MSAttributedStringColorAttribute.hexValue(),
@@ -47,8 +56,6 @@ while(limitRange.length > 0) {
       "fontName": attributes.NSFont.fontName(),
       "underline":attributes.NSUnderline == 1 ? true : false,
   }
-
-  console.log(attributes.NSFont)
 
   exportedValue.fragments.push(property)
   
@@ -86,13 +93,13 @@ for(fragment of exportedValue.fragments)
     attributesString += ` ${attr}`
   }
   
-  exportString += `<span${attributesString}></span>`
+  exportString += `<span${attributesString}>${fragment.string}</span>`
 }
 exportString += "</content>"
 
 console.log(exportString)
 console.log(exportedValue)
 
+let alertPrep = exportedValue.name + "\n\n" + exportString;
+UI.alert("Your export is complete:", alertPrep);
 
-          };
-          
