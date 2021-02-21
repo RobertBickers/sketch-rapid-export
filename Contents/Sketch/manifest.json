@@ -1,0 +1,24 @@
+{
+  "author" : "Robert Bickers",
+  "commands" : [
+    {
+      "script" : "script.js",
+      "name" : "rapid-xml-export",
+      "handlers" : {
+        "run" : "onRun"
+      },
+      "identifier" : "com.bohemiancoding.sketch.runscriptidentifier"
+    }
+  ],
+  "menu" : {
+    "title" : "rapid-xml-export",
+    "items" : [
+      "com.bohemiancoding.sketch.runscriptidentifier"
+    ]
+  },
+  "identifier" : "com.example.sketch.c1009fe9-01fb-4221-b3bc-a2c4b414eecc",
+  "version" : "1.0",
+  "description" : "Converts a selected block of text into an xml structure with defined style segments",
+  "authorEmail" : "bickers.robert@gmail.com",
+  "name" : "rapid-xml-export"
+}
